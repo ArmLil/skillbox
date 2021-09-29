@@ -5,6 +5,7 @@
         class="pagination__link pagination__link--arrow"
         :class="{ 'pagination__link--disabled': page === 1 }"
         href="#"
+        @click.prevent="paginate(page - 1)"
         aria-label="Предыдущая страница"
       >
         <svg width="8" height="14" fill="currentColor">
@@ -27,6 +28,7 @@
         class="pagination__link pagination__link--arrow"
         :class="{ 'pagination__link--disabled': page === pages }"
         href="#"
+        @click.prevent="paginate(page + 1)"
         aria-label="Следующая страница"
       >
         <svg width="8" height="14" fill="currentColor">
