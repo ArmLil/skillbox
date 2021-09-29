@@ -5,7 +5,7 @@
         class="pagination__link pagination__link--arrow"
         :class="{ 'pagination__link--disabled': page === 1 }"
         href="#"
-        @click.prevent="paginate(page - 1)"
+        @click.prevent="paginate(page - 1, page > 1)"
         aria-label="Предыдущая страница"
       >
         <svg width="8" height="14" fill="currentColor">
@@ -18,7 +18,7 @@
         href="#"
         class="pagination__link"
         :class="{ 'pagination__link--current': pageNumber === page }"
-        @click.prevent="paginate(pageNumber)"
+        @click.prevent="paginate(pageNumber, true)"
       >
         {{ pageNumber }}
       </a>
@@ -28,7 +28,7 @@
         class="pagination__link pagination__link--arrow"
         :class="{ 'pagination__link--disabled': page === pages }"
         href="#"
-        @click.prevent="paginate(page + 1)"
+        @click.prevent="paginate(page + 1, page < pages)"
         aria-label="Следующая страница"
       >
         <svg width="8" height="14" fill="currentColor">
@@ -52,8 +52,8 @@ export default {
     }
   },
   methods: {
-    paginate(page) {
-      this.$emit("paginate", page);
+    paginate(page, letEmit) {
+      if (letEmit) this.$emit("paginate", page);
     }
   }
 };
