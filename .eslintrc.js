@@ -11,7 +11,7 @@ module.exports = {
     "no-console": process.env.NODE_ENV === "production" ? "warn" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     quotes: [0, "double"],
-    "arrow-parens": [2, "as-needed", { requireForBlockBody: true }],
-    "comma-dangle": ["2", "never"]
+    "arrow-parens": [2, "as-needed", { requireForBlockBody: false }],
+    "comma-dangle": [2, "never"]
   }
 };
