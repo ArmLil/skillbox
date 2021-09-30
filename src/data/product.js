@@ -75,5 +75,12 @@ export default [
     title: "Наушники Sony",
     price: 30690,
     image: "img/headphones.jpg"
+  },
+  {
+    id: 12,
+    categoryId: 2,
+    title: "Смартфон Xioami",
+    price: 24690,
+    image: "img/phone-2.jpg"
   }
 ];
