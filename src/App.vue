@@ -15,6 +15,8 @@
           :price-from.sync="filterPriceFrom"
           :price-to.sync="filterPriceTo"
           :category-id.sync="filterCategoryId"
+          :filter-colors.sync="filterColors"
+          :filter-color.sync="filterColor"
         />
         <section class="catalog">
           <ProductList :products="products" />
@@ -40,7 +42,8 @@ export default {
       filterPriceTo: 0,
       filterCategoryId: 0,
       page: 1,
-      productsPerPage: 3
+      productsPerPage: 3,
+      filterColor: ""
     };
   },
   computed: {
@@ -57,7 +60,23 @@ export default {
           product => product.categoryId === this.filterCategoryId
         );
       }
+      if (this.filterColor !== "") {
+        filteredProducts = filteredProducts.filter(product => {
+          return product.colors.includes(this.filterColor);
+        });
+      }
       return filteredProducts;
+    },
+    filterColors() {
+      const filterColors = [];
+      products.forEach(product => {
+        product.colors.forEach(color => {
+          if (!filterColors.includes(color)) {
+            filterColors.push(color);
+          }
+        });
+      });
+      return filterColors;
     },
     products() {
       const offset = (this.page - 1) * this.productsPerPage;

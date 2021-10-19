@@ -12,6 +12,7 @@ module.exports = {
     "no-debugger": process.env.NODE_ENV === "production" ? "warn" : "off",
     quotes: [0, "double"],
     "arrow-parens": [2, "as-needed", { requireForBlockBody: false }],
-    "comma-dangle": [2, "never"]
+    "comma-dangle": [2, "never"],
+    "arrow-body-style": 0
   }
 };
