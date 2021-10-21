@@ -17,6 +17,7 @@
           :category-id.sync="filterCategoryId"
           :filter-colors.sync="filterColors"
           :filter-color.sync="filterColor"
+          :current-page.sync="page"
         />
         <section class="catalog">
           <ProductList :products="products" />

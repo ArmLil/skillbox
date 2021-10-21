@@ -170,12 +170,14 @@ export default {
       this.$emit("update:priceTo", this.currentPriceTo);
       this.$emit("update:categoryId", this.currentCategoryId);
       this.$emit("update:filterColor", this.currentColor);
+      this.$emit("update:currentPage", 1);
     },
     reset() {
       this.$emit("update:priceFrom", 0);
       this.$emit("update:priceTo", 0);
       this.$emit("update:categoryId", 0);
       this.$emit("update:filterColor", "");
+      this.$emit("update:currentPage", 1);
     }
   }
 };
