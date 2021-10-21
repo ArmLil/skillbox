@@ -160,7 +160,7 @@ export default {
     categoryId(value) {
       this.currentCategoryId = value;
     },
-    currentColor(value) {
+    filterColor(value) {
       this.currentColor = value;
     }
   },
