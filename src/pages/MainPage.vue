@@ -19,10 +19,7 @@
         :current-page.sync="page"
       />
       <section class="catalog">
-        <ProductList
-          :products="products"
-          @gotoPage="(pageName, pageParams) => $emit('gotoPage', pageName, pageParams)"
-        />
+        <ProductList :products="products" />
         <BasePagination :count="countProducts" v-model="page" :per-page="productsPerPage" />
       </section>
     </div>
