@@ -10,7 +10,7 @@
       </a>
     </h3>
 
-    <span class="catalog__price"> {{ product.price }} ₽ </span>
+    <span class="catalog__price"> {{ product.price | numberFormat }} ₽ </span>
 
     <ul class="colors colors--black">
       <li class="colors__item" v-for="(_color, index) in product.colors" :key="index">
@@ -24,7 +24,8 @@
 </template>
 
 <script>
-import eventBus from "@/eventBus";
+import gotoPage from "@/helpers/gotoPage";
+import numberFormat from "@/helpers/numberFormat";
 
 export default {
   data() {
@@ -32,10 +33,11 @@ export default {
       color: this.product.colors[0]
     };
   },
+  filters: {
+    numberFormat
+  },
   methods: {
-    gotoPage(pageName, pageParams) {
-      eventBus.$emit("gotoPage", pageName, pageParams);
-    }
+    gotoPage
   },
   props: ["product"]
 };
