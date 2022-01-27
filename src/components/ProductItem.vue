@@ -13,10 +13,10 @@
     <span class="catalog__price"> {{ product.price | numberFormat }} ₽ </span>
 
     <ul class="colors colors--black">
-      <li class="colors__item" v-for="(_color, index) in product.colors" :key="index">
+      <li class="colors__item" v-for="_color in product.colors" :key="_color.id">
         <label class="colors__label">
           <input class="colors__radio sr-only" type="radio" :value="_color" v-model="color" />
-          <span class="colors__value" v-bind:style="{ 'background-color': _color }"> </span>
+          <span class="colors__value" v-bind:style="{ 'background-color': _color.code }"> </span>
         </label>
       </li>
     </ul>
