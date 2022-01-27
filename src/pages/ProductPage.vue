@@ -33,7 +33,7 @@
           {{ product.title }}
         </h2>
         <div class="item__form">
-          <form class="form" action="#" method="POST">
+          <form class="form" action="#" method="POST" @submit.prevent="addToCart">
             <b class="item__price"> {{ product.price | numberFormat }} ₽ </b>
 
             <fieldset class="form__block">
@@ -114,15 +114,15 @@
 
             <div class="item__row">
               <div class="form__counter">
-                <button type="button" aria-label="Убрать один товар">
+                <button type="button" aria-label="Убрать один товар" @click="decAmount">
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-minus"></use>
                   </svg>
                 </button>
 
-                <input type="text" value="1" name="count" />
+                <input type="text" v-model.number="productAmount" />
 
-                <button type="button" aria-label="Добавить один товар">
+                <button type="button" aria-label="Добавить один товар" @click="accAmount">
                   <svg width="12" height="12" fill="currentColor">
                     <use xlink:href="#icon-plus"></use>
                   </svg>
@@ -212,6 +212,11 @@ import numberFormat from "@/helpers/numberFormat";
 
 export default {
   props: ["pageParams"],
+  data() {
+    return {
+      productAmount: 1
+    };
+  },
   filters: {
     numberFormat
   },
@@ -225,7 +230,20 @@ export default {
     }
   },
   methods: {
-    gotoPage
+    gotoPage,
+    addToCart() {
+      console.log(typeof this.productAmount);
+      this.$store.commit("addProductToCart", {
+        productId: this.product.id,
+        amount: this.productAmount
+      });
+    },
+    decAmount() {
+      if (this.productAmount > 1) this.productAmount -= 1;
+    },
+    accAmount() {
+      this.productAmount += 1;
+    }
   }
 };
 </script>
