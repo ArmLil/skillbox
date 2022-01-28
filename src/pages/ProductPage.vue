@@ -120,7 +120,7 @@
                   </svg>
                 </button>
 
-                <input type="text" v-model.number="productAmount" />
+                <input type="text" v-model="productAmount" />
 
                 <button type="button" aria-label="Добавить один товар" @click="accAmount">
                   <svg width="12" height="12" fill="currentColor">
@@ -209,6 +209,7 @@ import products from "@/data/product";
 import categories from "@/data/categories";
 import gotoPage from "@/helpers/gotoPage";
 import numberFormat from "@/helpers/numberFormat";
+import isNaturalNumber from "@/helpers/isNumber";
 
 export default {
   props: ["pageParams"],
@@ -217,12 +218,24 @@ export default {
       productAmount: 1
     };
   },
+  watch: {
+    productAmount(newData, oldData) {
+      if (!isNaturalNumber(newData)) {
+        this.productAmount = oldData;
+      } else this.productAmount = Number(newData);
+    }
+  },
   filters: {
-    numberFormat
+    numberFormat,
+    checkNumber(value) {
+      if (isNaturalNumber(value)) {
+        return value;
+      }
+      return this.productAmount;
+    }
   },
   computed: {
     product() {
-      console.log(this.$route);
       return products.find(product => product.id === +this.$route.params.id);
     },
     category() {
@@ -232,14 +245,13 @@ export default {
   methods: {
     gotoPage,
     addToCart() {
-      console.log(typeof this.productAmount);
       this.$store.commit("addProductToCart", {
         productId: this.product.id,
         amount: this.productAmount
       });
     },
     decAmount() {
-      if (this.productAmount > 1) this.productAmount -= 1;
+      this.productAmount -= 1;
     },
     accAmount() {
       this.productAmount += 1;

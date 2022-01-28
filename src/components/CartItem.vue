@@ -21,7 +21,7 @@
         </svg>
       </button>
 
-      <input type="text" v-model.number="amount" name="count" />
+      <input type="text" v-model="amount" name="count" />
 
       <button type="button" aria-label="Добавить один товар" @click.prevent="accAmount">
         <svg width="10" height="10" fill="currentColor">
@@ -48,12 +48,14 @@
 <script>
 import { mapMutations } from "vuex";
 import numberFormat from "@/helpers/numberFormat";
+import isNaturalNumber from "@/helpers/isNumber";
 
 export default {
   filters: {
     numberFormat
   },
   props: ["item"],
+
   computed: {
     amount: {
       get() {
@@ -67,21 +69,22 @@ export default {
       }
     }
   },
+  watch: {
+    amount(newData, oldData) {
+      if (!isNaturalNumber(newData)) {
+        this.amount = Number(oldData);
+      } else {
+        this.amount = Number(newData);
+      }
+    }
+  },
   methods: {
     ...mapMutations({ deleteProduct: "deleteCartProduct" }),
     decAmount() {
-      if (this.item.amount > 1) {
-        this.$store.commit("updateCartProductAmount", {
-          productId: this.item.productId,
-          amount: this.item.amount - 1
-        });
-      }
+      this.amount -= 1;
     },
     accAmount() {
-      this.$store.commit("updateCartProductAmount", {
-        productId: this.item.productId,
-        amount: this.item.amount + 1
-      });
+      this.amount += 1;
     }
   }
 };

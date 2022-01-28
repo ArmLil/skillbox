@@ -17,7 +17,7 @@
       <h1 class="content__title">
         Корзина
       </h1>
-      <span class="content__info"> {{ products.length }} товара </span>
+      <span class="content__info"> {{ $store.getters.cartTotalAmount }} товара </span>
     </div>
 
     <section class="cart">
