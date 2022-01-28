@@ -8,7 +8,7 @@
       <use xlink:href="#icon-cart"></use>
     </svg>
     <span class="header__count" aria-label="Количество товаров">{{
-      $store.state.cartProducts.length
+      $store.getters.cartTotalAmount
     }}</span>
   </router-link>
 </template>
