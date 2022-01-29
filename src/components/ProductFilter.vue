@@ -40,7 +40,7 @@
       <fieldset class="form__block">
         <legend class="form__legend">Цвет</legend>
         <ul class="colors">
-          <li class="colors__item" v-for="(color, index) in filterColors" :key="index">
+          <li class="colors__item" v-for="(color, index) in colors" :key="index">
             <label class="colors__label">
               <input
                 class="colors__radio sr-only"
@@ -50,7 +50,7 @@
                 checked=""
                 v-model="currentColor"
               />
-              <span class="colors__value" v-bind:style="{ 'background-color': color }"> </span>
+              <span class="colors__value" v-bind:style="{ 'background-color': color.code }"> </span>
             </label>
           </li>
         </ul>
@@ -133,7 +133,8 @@
 </template>
 
 <script>
-import categories from "../data/categories";
+import axios from "axios";
+import { API_BASE_URL } from "@/config";
 
 export default {
   data() {
@@ -141,13 +142,18 @@ export default {
       currentPriceFrom: 0,
       currentPriceTo: 0,
       currentCategoryId: 0,
-      currentColor: ""
+      currentColor: "",
+      categoriesData: null,
+      filterColors: null
     };
   },
-  props: ["priceFrom", "priceTo", "categoryId", "filterColors", "filterColor"],
+  props: ["priceFrom", "priceTo", "categoryId", "filterColor"],
   computed: {
     categories() {
-      return categories;
+      return this.categoriesData ? this.categoriesData.items : [];
+    },
+    colors() {
+      return this.filterColors ? this.filterColors.items : [];
     }
   },
   watch: {
@@ -178,7 +184,21 @@ export default {
       this.$emit("update:categoryId", 0);
       this.$emit("update:filterColor", "");
       this.$emit("update:currentPage", 1);
+    },
+    loadCategories() {
+      axios.get(API_BASE_URL + "productCategories").then(response => {
+        this.categoriesData = response.data;
+      });
+    },
+    loadColors() {
+      axios.get(API_BASE_URL + "colors").then(response => {
+        this.filterColors = response.data;
+      });
     }
+  },
+  created() {
+    this.loadCategories();
+    this.loadColors();
   }
 };
 </script>

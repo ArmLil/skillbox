@@ -14,6 +14,8 @@ module.exports = {
     "arrow-parens": [2, "as-needed", { requireForBlockBody: false }],
     "comma-dangle": [2, "never"],
     "arrow-body-style": 0,
-    indent: "off"
+    "prefer-default-export": "off",
+    "prefer-template": "off",
+    indent: ["off", 2]
   }
 };
