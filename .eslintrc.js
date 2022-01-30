@@ -16,6 +16,7 @@ module.exports = {
     "arrow-body-style": 0,
     "prefer-default-export": "off",
     "prefer-template": "off",
-    indent: ["off", 2]
+    indent: ["off", 2],
+    "object-curly-newline": "off"
   }
 };
