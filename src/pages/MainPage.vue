@@ -23,7 +23,7 @@
           Произашла ошибка при загрузке товаров
           <button @click.prevent="loadProducts">Попробовать еще раз</button>
         </div>
-        <ProductList :products="products" />
+        <ProductList v-if="!productLoading" :products="products" />
         <BasePagination :count="countProducts" v-model="page" :per-page="productsPerPage" />
       </section>
     </div>

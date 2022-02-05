@@ -1,5 +1,5 @@
 <template lang="html">
-  <div class="container">
+  <div class="loaderContainer">
     <div class="circle circle-1"></div>
     <div class="circle circle-2"></div>
     <div class="circle circle-3"></div>
@@ -13,11 +13,7 @@ export default {};
 </script>
 
 <style lang="css" scoped>
-body {
-  overflow: hidden;
-}
-
-.container {
+.loaderContainer {
   display: flex;
   justify-content: start;
   align-items: start;
