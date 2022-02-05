@@ -75,7 +75,7 @@ export default {
       clearTimeout(this.loadProductsTimer);
       this.loadProductsTimer = setTimeout(() => {
         axios
-          .get(API_BASE_URL + "products", {
+          .get(API_BASE_URL + "api/products", {
             params: {
               page: this.page,
               limit: this.productsPerPage,
@@ -94,7 +94,7 @@ export default {
           .then(() => {
             this.productLoading = false;
           });
-      }, 3000);
+      }, 2000);
     }
   },
   watch: {

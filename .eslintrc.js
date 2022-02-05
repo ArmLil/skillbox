@@ -14,9 +14,10 @@ module.exports = {
     "arrow-parens": [2, "as-needed", { requireForBlockBody: false }],
     "comma-dangle": [2, "never"],
     "arrow-body-style": 0,
-    "prefer-default-export": "off",
+    "prefer-default-export": 0,
     "prefer-template": "off",
     indent: ["off", 2],
-    "object-curly-newline": "off"
+    "object-curly-newline": "off",
+    "object-shorthand": 0
   }
 };

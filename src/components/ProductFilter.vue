@@ -186,12 +186,12 @@ export default {
       this.$emit("update:currentPage", 1);
     },
     loadCategories() {
-      axios.get(API_BASE_URL + "productCategories").then(response => {
+      axios.get(API_BASE_URL + "api/productCategories").then(response => {
         this.categoriesData = response.data;
       });
     },
     loadColors() {
-      axios.get(API_BASE_URL + "colors").then(response => {
+      axios.get(API_BASE_URL + "api/colors").then(response => {
         this.filterColors = response.data;
       });
     }
