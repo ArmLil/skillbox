@@ -18,6 +18,7 @@ module.exports = {
     "prefer-template": "off",
     indent: ["off", 2],
     "object-curly-newline": "off",
-    "object-shorthand": 0
+    "object-shorthand": 0,
+    "prefer-destructuring": 0
   }
 };
