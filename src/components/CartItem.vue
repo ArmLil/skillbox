@@ -55,36 +55,51 @@ export default {
     numberFormat
   },
   props: ["item"],
-
+  data() {
+    return {
+      currentAmount: this.item.amount
+    };
+  },
   computed: {
     amount: {
       get() {
         return this.item.amount;
       },
       set(value) {
-        this.$store.commit("updateCartProductAmount", {
-          productId: this.item.productId,
-          amount: value
-        });
+        this.updateCartProductAmount({ productId: this.item.productId, amount: value });
       }
     }
   },
   watch: {
     amount(newData, oldData) {
-      if (!isNaturalNumber(newData)) {
-        this.amount = Number(oldData);
+      if (!isNaturalNumber(newData) && newData !== "") {
+        this.updateCartProductAmount({ productId: this.item.productId, amount: oldData });
+      } else if (isNaturalNumber(newData) && newData !== this.currentAmount) {
+        this.$store
+          .dispatch("updateCartProductAmount", {
+            productId: this.item.productId,
+            amount: newData
+          })
+          .then(() => {
+            this.currentAmount = newData;
+          });
       } else {
-        this.amount = Number(newData);
+        this.updateCartProductAmount({ productId: this.item.productId, amount: newData });
       }
     }
   },
   methods: {
-    ...mapMutations({ deleteProduct: "deleteCartProduct" }),
+    ...mapMutations(["deleteCartProduct", "updateCartProductAmount"]),
     decAmount() {
       this.amount -= 1;
     },
     accAmount() {
       this.amount += 1;
+    },
+    deleteProduct() {
+      this.$store.dispatch("deleteCartProduct", {
+        productId: this.item.productId
+      });
     }
   }
 };
