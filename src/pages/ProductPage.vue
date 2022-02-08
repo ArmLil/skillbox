@@ -1,7 +1,7 @@
 <template>
   <div>
     <main class="content container" v-if="productLoading"><Loader /></main>
-    <main class="content container" v-else-if="!productData">Товар не загрузился</main>
+    <main class="content container" v-else-if="productLoadingFailed">Товар не загрузился</main>
     <main class="content container" v-else>
       <div class="content__top">
         <ul class="breadcrumbs">
@@ -277,7 +277,7 @@ export default {
     },
     loadProduct() {
       this.productLoading = true;
-      this.productLoadingFailed = true;
+      this.productLoadingFailed = false;
       axios
         .get(API_BASE_URL + "api/products/" + this.$route.params.id)
         .then(response => {
