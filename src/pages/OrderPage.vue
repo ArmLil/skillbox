@@ -23,10 +23,14 @@
         Корзина
       </h1>
       <span class="content__info"> {{ totalAmount }} товара </span>
+      <div class="loader" v-if="requestSending">
+        <span class="loader">Отправка данных...</span>
+        <Loader />
+      </div>
     </div>
 
     <section class="cart">
-      <form class="cart__form form" action="#" method="POST">
+      <form class="cart__form form" action="#" method="POST" @submit.prevent="order()">
         <div class="cart__field">
           <div class="cart__data">
             <BaseFormText
@@ -134,10 +138,9 @@
             Оформить заказ
           </button>
         </div>
-        <div class="cart__error form__error-block">
-          <h4>Заявка не отправлена!</h4>
+        <div v-if="formErrorMessage" class="cart__error form__error-block">
           <p>
-            Похоже произошла ошибка. Попробуйте отправить снова или перезагрузите страницу.
+            {{ formErrorMessage }}
           </p>
         </div>
       </form>
@@ -147,18 +150,58 @@
 
 <script>
 import { mapGetters } from "vuex";
+import axios from "axios";
 import BaseFormText from "@/components/BaseFormText.vue";
 import BaseFormTextarea from "@/components/BaseFormTextarea.vue";
+import Loader from "@/components/Loader.vue";
 import NumberFormat from "@/helpers/numberFormat";
+import { API_BASE_URL } from "@/config";
 
 export default {
-  components: { BaseFormText, BaseFormTextarea },
+  components: { BaseFormText, BaseFormTextarea, Loader },
 
   data() {
     return {
       formData: {},
-      formError: {}
+      formError: {},
+      formErrorMessage: "",
+      requestSending: ""
     };
+  },
+  methods: {
+    order() {
+      this.formError = {};
+      this.formErrorMessage = "";
+      this.requestSending = true;
+      new Promise(resolve => setTimeout(resolve, 2000)).then(() => {
+        axios
+          .post(
+            API_BASE_URL + "api/orders",
+            {
+              ...this.formData
+            },
+            {
+              params: {
+                userAccessKey: this.$store.state.userAccessKey
+              }
+            }
+          )
+          .then(() => {
+            this.$store.commit("resetCart");
+          })
+          .catch(error => {
+            console.log({ error });
+            this.formError = error.response.data.error.request || {};
+            if (error.response.data.error.message) {
+              console.log("if");
+              this.formErrorMessage = error.response.data.error.message;
+            }
+          })
+          .then(() => {
+            this.requestSending = false;
+          });
+      });
+    }
   },
   computed: {
     ...mapGetters({
@@ -171,4 +214,10 @@ export default {
 };
 </script>
 
-<style lang="css" scoped></style>
+<style scoped>
+.loader {
+  position: absolute;
+  top: 15%;
+  right: 18%;
+}
+</style>

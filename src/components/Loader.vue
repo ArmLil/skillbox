@@ -17,7 +17,7 @@ export default {};
   display: flex;
   justify-content: start;
   align-items: start;
-  margin-left: 250px;
+  margin-left: 50px;
   padding: 50px;
   overflow: hidden;
 }
