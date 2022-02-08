@@ -61,8 +61,8 @@
 
             <BaseFormTextarea
               title="Комментарий к заказу"
-              :error="formError.comments"
-              v-model="formData.comments"
+              :error="formError.comment"
+              v-model="formData.comment"
               placeholder="Ваши пожелания"
             />
           </div>
