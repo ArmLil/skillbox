@@ -3,14 +3,14 @@
     <div class="content__top">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="index.html">
+          <router-link class="breadcrumbs__link" :to="{ name: 'main' }">
             Каталог
-          </a>
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
-          <a class="breadcrumbs__link" href="cart.html">
+          <router-link class="breadcrumbs__link" :to="{ name: 'cart' }">
             Корзина
-          </a>
+          </router-link>
         </li>
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link">
@@ -22,69 +22,49 @@
       <h1 class="content__title">
         Корзина
       </h1>
-      <span class="content__info">
-        3 товара
-      </span>
+      <span class="content__info"> {{ totalAmount }} товара </span>
     </div>
 
     <section class="cart">
       <form class="cart__form form" action="#" method="POST">
         <div class="cart__field">
           <div class="cart__data">
-            <label class="form__label">
-              <input
-                class="form__input"
-                type="text"
-                v-model="formData.name"
-                name="name"
-                placeholder="Введите ваше полное имя"
-              />
-              <span class="form__value">ФИО</span>
-            </label>
+            <BaseFormText
+              title="ФИО"
+              :error="formError.name"
+              placeholder="Введите ваше полное имя"
+              v-model="formData.name"
+            ></BaseFormText>
 
-            <label class="form__label">
-              <input
-                class="form__input"
-                type="text"
-                v-model="formData.address"
-                name="address"
-                placeholder="Введите ваш адрес"
-              />
-              <span class="form__value">Адрес доставки</span>
-            </label>
+            <BaseFormText
+              title="Адрес доставки"
+              :error="formError.address"
+              placeholder="Введите ваш адре"
+              v-model="formData.address"
+            ></BaseFormText>
 
-            <label class="form__label">
-              <input
-                class="form__input"
-                type="tel"
-                v-model="formData.phone"
-                name="phone"
-                placeholder="Введите ваш телефон"
-              />
-              <span class="form__value">Телефон</span>
-              <span class="form__error">Неверный формат телефона</span>
-            </label>
+            <BaseFormText
+              title="Телефон"
+              :error="formError.phone"
+              type="tel"
+              placeholder="Введите ваш телефон"
+              v-model="formData.phone"
+            ></BaseFormText>
 
-            <label class="form__label">
-              <input
-                class="form__input"
-                type="email"
-                v-model="formData.email"
-                name="email"
-                placeholder="Введи ваш Email"
-              />
-              <span class="form__value">Email</span>
-            </label>
+            <BaseFormText
+              title="Email"
+              :error="formError.email"
+              type="email"
+              placeholder="Введи ваш Email"
+              v-model="formData.email"
+            ></BaseFormText>
 
-            <label class="form__label">
-              <textarea
-                class="form__input form__input--area"
-                v-model="formData.comments"
-                name="comments"
-                placeholder="Ваши пожелания"
-              ></textarea>
-              <span class="form__value">Комментарий к заказу</span>
-            </label>
+            <BaseFormTextarea
+              title="Комментарий к заказу"
+              :error="formError.comments"
+              v-model="formData.comments"
+              placeholder="Ваши пожелания"
+            />
           </div>
 
           <div class="cart__options">
@@ -134,26 +114,20 @@
 
         <div class="cart__block">
           <ul class="cart__orders">
-            <li class="cart__order">
-              <h3>Смартфон Xiaomi Redmi Note 7 Pro 6/128GB</h3>
-              <b>18 990 ₽</b>
-              <span>Артикул: 150030</span>
-            </li>
-            <li class="cart__order">
-              <h3>Гироскутер Razor Hovertrax 2.0ii</h3>
-              <b>4 990 ₽</b>
-              <span>Артикул: 150030</span>
-            </li>
-            <li class="cart__order">
-              <h3>Электрический дрифт-карт Razor Lil’ Crazy</h3>
-              <b>8 990 ₽</b>
-              <span>Артикул: 150030</span>
+            <li class="cart__order" v-for="item in products" :key="item.product.id">
+              <h3>{{ item.product.title }}</h3>
+              <b>{{ item.product.price | numberFormat }} ₽</b>
+              <span>Количество: {{ item.amount }}</span>
+              <span>Артикул: {{ item.product.id }}</span>
             </li>
           </ul>
 
           <div class="cart__total">
             <p>Доставка: <b>500 ₽</b></p>
-            <p>Итого: <b>3</b> товара на сумму <b>37 970 ₽</b></p>
+            <p>
+              Итого: <b>{{ totalAmount }}</b> товара на сумму
+              <b>{{ totalPrice | NumberFormat }} ₽</b>
+            </p>
           </div>
 
           <button class="cart__button button button--primery" type="submit">
@@ -172,13 +146,28 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+import BaseFormText from "@/components/BaseFormText.vue";
+import BaseFormTextarea from "@/components/BaseFormTextarea.vue";
+import NumberFormat from "@/helpers/numberFormat";
+
 export default {
+  components: { BaseFormText, BaseFormTextarea },
+
   data() {
     return {
       formData: {},
       formError: {}
     };
-  }
+  },
+  computed: {
+    ...mapGetters({
+      products: "cartDetailProducts",
+      totalPrice: "cartTotalPrice",
+      totalAmount: "cartTotalAmount"
+    })
+  },
+  filters: { NumberFormat }
 };
 </script>
 

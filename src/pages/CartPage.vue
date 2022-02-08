@@ -8,16 +8,16 @@
           </router-link>
         </li>
         <li class="breadcrumbs__item">
-          <router-link class="breadcrumbs__link" :to="{ name: 'main' }">
+          <a class="breadcrumbs__link">
             Корзина
-          </router-link>
+          </a>
         </li>
       </ul>
 
       <h1 class="content__title">
         Корзина
       </h1>
-      <span class="content__info"> {{ $store.getters.cartTotalAmount }} товара </span>
+      <span class="content__info"> {{ totalAmount }} товара </span>
     </div>
 
     <section class="cart">
@@ -36,7 +36,12 @@
             Итого: <span>{{ totalPrice | numberFormat }} ₽</span>
           </p>
 
-          <router-link class="cart__button button button--primery" type="submit" to="/order">
+          <router-link
+            v-if="totalPrice"
+            class="cart__button button button--primery"
+            type="submit"
+            to="/order"
+          >
             Оформить заказ
           </router-link>
         </div>
@@ -56,7 +61,11 @@ export default {
   },
   components: { CartItem },
   computed: {
-    ...mapGetters({ products: "cartDetailProducts", totalPrice: "cartTotalPrice" })
+    ...mapGetters({
+      products: "cartDetailProducts",
+      totalPrice: "cartTotalPrice",
+      totalAmount: "cartTotalAmount"
+    })
   }
 };
 </script>
