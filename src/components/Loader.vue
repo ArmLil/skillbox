@@ -15,8 +15,8 @@ export default {};
 <style lang="css" scoped>
 .loaderContainer {
   display: flex;
-  justify-content: start;
-  align-items: start;
+  justify-content: flex-start;
+  align-items: flex-start;
   margin-left: 50px;
   padding: 50px;
   overflow: hidden;
